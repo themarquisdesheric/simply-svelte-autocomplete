@@ -1,8 +1,11 @@
 <script>
 	import ChevronIcon from './ChevronIcon.svelte'
+	import { boldSearchLetters, findMatches } from './utils'
 
-	const options = ['Borges', 'Voltaire', 'Wilde', 'Cortazar', 'Eliot']
+	const options = ['Jorge Luis Borges', 'Rene Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
 	let selectedValue = ''
+
+	$: matches = findMatches(options, selectedValue)
 </script>
 
 
@@ -10,10 +13,12 @@
 	<input bind:value={selectedValue} />
 	<ChevronIcon />
 
-	{#if selectedValue}
+	{#if selectedValue && matches.length}
 		<ul class="results-list">
-			{#each options as option (option)}
-				<li>{option}</li>
+			{#each matches as match (match)}
+				<li>
+					{@html boldSearchLetters(match, selectedValue)}
+				</li>
 			{/each}
 		</ul>
 	{/if}
@@ -45,6 +50,11 @@
 	}
 
 	.results-list li:not(:last-child) { padding-bottom: .5rem; }
+
+	:global(.results-list li span) {
+		font-weight: bold;
+		color: #111;
+	}
 
 	:global(.svelte-autocomplete svg) {
 		width: 1.5rem;
