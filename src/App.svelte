@@ -44,15 +44,19 @@
 				const highlightedOption = matches[highlightIndex]
 
 				if (highlightedOption) {
-					selectedValue = highlightedOption
-					showModal = false
+					selectValue(highlightedOption)
 				}
 				break
-
-			default:
-				return
-		}
-	}
+				
+				default:
+					return
+				}
+			}
+			
+			const selectValue = (value) => {
+				selectedValue = value
+				showModal = false
+			}
 
 	const highlight = (index) =>
 		showResultsList && index === highlightIndex
@@ -73,7 +77,10 @@
 	{#if showResultsList}
 		<ul class="results-list">
 			{#each matches as match, index (match)}
-				<li class:highlight={showResultsList && index === highlightIndex}>
+				<li
+					on:click={() => selectValue(match)}
+					class:highlight={showResultsList && index === highlightIndex}
+				>
 					{@html boldSearchLetters(match, selectedValue)}
 				</li>
 			{/each}
@@ -108,7 +115,6 @@
     border-radius: 0 0 2px 2px;
 		padding-left: 0;
 		margin: 0;
-		z-index: -1;
 	}
 
 	.results-list li { padding: .5rem; }
@@ -119,10 +125,12 @@
 	}
 	
 	.highlight,
+	.results-list li:hover,
+	:global(.results-list li:hover span),
 	:global(.results-list .highlight span) {
-		font-weight: normal;
 		background: #333;
 		color: #fff;
+		font-weight: normal;
 	}
 
 	:global(.svelte-autocomplete svg) {
