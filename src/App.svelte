@@ -4,6 +4,9 @@
 
 	const options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
 	export let onSubmit = () => {}
+	export let themeColor = '#333'
+	export let highlightTextColor = '#fff'
+
 	export let selectedValue = ''
 	export let showResults = true
 	let highlightIndex = 0
@@ -71,7 +74,11 @@
 </script>
 
 
-<div class="svelte-autocomplete">
+<div
+	class="svelte-autocomplete"
+	style="--theme: {themeColor};
+				 --highlightTextColor: {highlightTextColor};"
+>
 	<input
 		bind:value={selectedValue}
 		on:keydown={handleKeyDown}
@@ -138,8 +145,8 @@
 	.results-list li:hover,
 	:global(.results-list li:hover span),
 	:global(.results-list .highlight span) {
-		background: #333;
-		color: #fff;
+		background: var(--theme);
+		color: var(--highlightTextColor);
 		font-weight: normal;
 	}
 
@@ -147,6 +154,7 @@
 		width: 1.5rem;
     position: absolute;
     top: .25rem;
-    right: .35rem;
+		right: .35rem;
+		fill: var(--theme);
 	}
 </style>
