@@ -1,6 +1,6 @@
 <script>
 	import ChevronIcon from './ChevronIcon.svelte'
-	import { boldSearchLetters, findMatches } from './utils'
+	import { boldSearchTerm, findMatches } from './utils'
 
 	const options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
 	let selectedValue = ''
@@ -48,15 +48,15 @@
 				}
 				break
 				
-				default:
-					return
-				}
-			}
+			default:
+				return
+		}
+	}
 			
-			const selectValue = (value) => {
-				selectedValue = value
-				showModal = false
-			}
+	const selectValue = (value) => {
+		selectedValue = value
+		showModal = false
+	}
 
 	const highlight = (index) =>
 		showResultsList && index === highlightIndex
@@ -81,7 +81,7 @@
 					on:click={() => selectValue(match)}
 					class:highlight={showResultsList && index === highlightIndex}
 				>
-					{@html boldSearchLetters(match, selectedValue)}
+					{@html boldSearchTerm(match, selectedValue)}
 				</li>
 			{/each}
 		</ul>

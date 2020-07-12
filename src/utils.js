@@ -1,18 +1,46 @@
 export const findMatches = (options, searchTerm) =>
-  // question marks break the regex
-  (searchTerm.indexOf('?') > -1)
-    ? []
-    :  options.filter(option => {
-        const foundIndex = option.toLowerCase().indexOf(
-          searchTerm.toLowerCase()
-        )
+  options.filter(option => {
+    const foundIndex = option.toLowerCase().indexOf(
+      searchTerm.toLowerCase()
+    )
 
-        return foundIndex > -1
-      })
+    return foundIndex > -1
+  })
 
-export const boldSearchLetters = (option, searchTerm) => {
-  const regex = new RegExp(searchTerm, 'gi')
-  const spanWrappedLetters = `<span>${searchTerm}</span>`
+export const spanWrapSearchTerm = (option, foundIndex, searchTermLength) => {
+  const searchTerm = option.slice(foundIndex, foundIndex + searchTermLength)
   
-  return option.replace(regex, spanWrappedLetters)
+  return `<span>${searchTerm}</span>`
+}
+
+export const boldSearchTerm = (option, searchTerm) => {
+  const lowercaseOption = option.toLowerCase()
+  const lowercaseSearchTerm = searchTerm.toLowerCase()
+  let foundIndex = lowercaseOption.indexOf(lowercaseSearchTerm)
+  
+  let html = ''
+
+  while (foundIndex !== -1) {
+    const previousIndex = foundIndex
+    const searchTermLength = searchTerm.length
+
+    if (!html) {
+      html = option.slice(0, foundIndex)
+    }
+
+    html += spanWrapSearchTerm(option, foundIndex, searchTermLength)
+
+    // check for another match
+    foundIndex = lowercaseOption.indexOf(lowercaseSearchTerm, foundIndex + 1)
+
+    if (foundIndex !== -1) {
+      // second match: add raw string before next section of html
+      html += option.slice(previousIndex + searchTermLength, foundIndex)
+    } else {
+      // single match, finish the string
+      html += option.slice(previousIndex + searchTermLength)
+    }
+  }
+
+  return html || option
 }
