@@ -2,7 +2,7 @@
 	import ChevronIcon from './ChevronIcon.svelte'
 	import { boldSearchTerm, findMatches } from './utils'
 
-	const options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
+	export let options = []
 	export let onSubmit = () => {}
 	export let themeColor = '#333'
 	export let highlightTextColor = '#fff'
@@ -46,24 +46,22 @@
 
 			case 'Enter':
 				const highlightedOption = matches[highlightIndex]
+				const value = highlightedOption || selectedValue
 
-				if (highlightedOption) {
-					selectValue(highlightedOption)
-				} else {
-					onSubmit(selectedValue)
-				}
+				handleSubmit(value)
 				break
 				
 			default:
 				return
 		}
 	}
-			
-	const selectValue = (value) => {
+
+	const handleSubmit = (value) => {
 		selectedValue = value
 		showResults = false
-
-		onSubmit(selectedValue)
+		
+		onSubmit(value)
+		selectedValue = ''
 	}
 
 	const highlight = (index) =>
@@ -90,7 +88,7 @@
 		<ul class="results-list">
 			{#each matches as match, index (match)}
 				<li
-					on:click={() => selectValue(match)}
+					on:click={() => handleSubmit(match)}
 					class:highlight={showResultsList && index === highlightIndex}
 				>
 					{@html boldSearchTerm(match, selectedValue)}
