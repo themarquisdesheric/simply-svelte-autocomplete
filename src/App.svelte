@@ -3,19 +3,20 @@
 	import { boldSearchTerm, findMatches } from './utils'
 
 	const options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
-	let selectedValue = ''
-	let showModal = true
+	export let onSubmit = () => {}
+	export let selectedValue = ''
+	export let showResults = true
 	let highlightIndex = 0
 
 	const handleInput = () => {
 		highlightIndex = 0
-		showModal = true
+		showResults = true
 	}
 
 	const handleKeyDown = ({ key }) => {
 		switch(key) {
 			case 'Escape':
-				showModal = false
+				showResults = false
 				break
 
 			case 'ArrowUp':
@@ -45,6 +46,8 @@
 
 				if (highlightedOption) {
 					selectValue(highlightedOption)
+				} else {
+					onSubmit(selectedValue)
 				}
 				break
 				
@@ -55,14 +58,16 @@
 			
 	const selectValue = (value) => {
 		selectedValue = value
-		showModal = false
+		showResults = false
+
+		onSubmit(selectedValue)
 	}
 
 	const highlight = (index) =>
 		showResultsList && index === highlightIndex
 
 	$: matches = findMatches(options, selectedValue)
-	$: showResultsList = showModal && selectedValue && matches.length
+	$: showResultsList = showResults && selectedValue && matches.length
 </script>
 
 
@@ -90,7 +95,10 @@
 
 
 <style>
-	.svelte-autocomplete { position: relative; }
+	.svelte-autocomplete {
+		display: inline-block;
+		position: relative;
+	}
 	
 	input {
 		height: 2.25rem;
@@ -111,10 +119,12 @@
     left: 1px;
     top: 35px;
 		list-style-type: none;
+		background-color: #fff;
 		color: #595959;
     border-radius: 0 0 2px 2px;
 		padding-left: 0;
 		margin: 0;
+		z-index: 10;
 	}
 
 	.results-list li { padding: .5rem; }
