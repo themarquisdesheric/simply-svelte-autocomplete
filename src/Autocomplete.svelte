@@ -43,6 +43,9 @@
 					highlightIndex += 1
 				}
 				break
+			case 'Tab':
+				showResults = false		
+				break
 
 			case 'Enter':
 				const highlightedOption = matches[highlightIndex]
@@ -85,6 +88,7 @@
 	<ChevronIcon />
 
 	{#if showResultsList}
+		<div class="click-catcher" on:click={() => showResults = false} />
 		<ul class="results-list">
 			{#each matches as match, index (match)}
 				<li
@@ -130,6 +134,15 @@
 		padding-left: 0;
 		margin: 0;
 		z-index: 10;
+		text-align: left;
+	}
+
+	.click-catcher {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 
 	.results-list li { padding: .5rem; }

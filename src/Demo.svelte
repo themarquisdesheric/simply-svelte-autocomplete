@@ -47,7 +47,7 @@
   />
 
   <p>
-    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="github">
+    <img src="github-logo.png" alt="github">
   </p>
   <a href="https://github.com/themarquisdesheric/simply-svelte-autocomplete">https://github.com/themarquisdesheric/simply-svelte-autocomplete</a>
 </div>
