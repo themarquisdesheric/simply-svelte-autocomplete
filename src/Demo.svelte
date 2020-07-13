@@ -1,6 +1,5 @@
 <script>
   import Autocomplete from './Autocomplete.svelte'
-  import ChevronIcon from './ChevronIcon.svelte'
 
   const tagColors = ['#000', '#3298dc', '#f14668', '#48c774', '#3273dc']
   let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
@@ -18,13 +17,12 @@
   }
 </script>
 
+
 <div class="wrapper">
   <h1>Simply Svelte Autocomplete</h1>
   <small>
     A lightweight, zero-dependency component that supports theming and incorporating new entries
   </small>
-
-  <p>selectedValue: {selectedValue}</p>
 
   <Autocomplete
     {options}
@@ -39,21 +37,43 @@
       </button>
     {/each}
   </div>
+
+  <h2>It supports theming 😍</h2>
+
+  <Autocomplete
+    {options}
+    onSubmit={() => alert("hey that's some sweet theming")}
+    themeColor={tagColors[4]}
+  />
+
+  <p>
+    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="github">
+  </p>
+  <a href="https://github.com/themarquisdesheric/simply-svelte-autocomplete">https://github.com/themarquisdesheric/simply-svelte-autocomplete</a>
 </div>
 
+
 <style>
+  :global(body) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    margin: 0;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  }
   .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 
   small {
     font-style: italic;
     margin-bottom: 2rem;
   }
-
-  p { text-align: center; }
 
   .tag {
     border: none;
@@ -67,4 +87,13 @@
     white-space: nowrap;
     margin: .5rem .5rem .5rem 0;
   }
+
+  h2 {
+    margin: 4rem auto 2rem;
+    font-size: 1.125rem;
+  }
+
+  p { margin: 2rem 0 .5rem; }
+
+  img { width: 4rem; }
 </style>
