@@ -1,2 +1,33 @@
-# svelte-autocomplete
-I tried a few autocomplete components but none of them suited my needs. Let's hope this one does. 
+# simply-svelte-autocomplete
+
+A lightweight, zero-dependency component that supports theming and incorporating new entries
+
+## Demo 
+
+TODO
+
+## Installation
+
+TODO
+
+## Usage
+
+```
+import AutoComplete from 'simply-svelte-autocomplete'
+
+let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
+
+const handleSubmit = () => { ... }
+
+<Autocomplete {options} onSubmit={handleSubmit} />
+```
+
+## Options
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| options | Array | [] | List of autocomplete results to display
+| className | String | '' | Container class
+| onSubmit | Function | () => {} | Called upon clicking/submitting an autocomplete result or hitting the `Enter` key
+| themeColor | String | '#333' | Color of chevron icon and highlight background
+| highlightTextColor | String | '#FFF' | Highlight text color

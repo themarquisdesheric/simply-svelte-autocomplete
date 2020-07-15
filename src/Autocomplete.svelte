@@ -3,13 +3,14 @@
 	import { boldSearchTerm, findMatches } from './utils'
 
 	export let options = []
+	export let className = ''
 	export let onSubmit = () => {}
 	export let themeColor = '#333'
 	export let highlightTextColor = '#fff'
-	export let selectedValue = ''
-	export let showAutocompleteResults = false
 	
+	let showAutocompleteResults = false
 	let highlightIndex = 0
+	let selectedValue = ''
 
 	const showResults = () => {
 		highlightIndex = 0
@@ -80,7 +81,7 @@
 
 
 <div
-	class="svelte-autocomplete"
+	class="svelte-autocomplete {className}"
 	style="--theme: {themeColor};
 				 --highlightTextColor: {highlightTextColor};"
 >
