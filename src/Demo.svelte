@@ -3,10 +3,9 @@
 
   const tagColors = ['#000', '#3298dc', '#f14668', '#48c774', '#3273dc']
   let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
-  let selectedValue = ''
   let selectedOptions = []
 
-  const handleSubmit = () => {
+  const handleSubmit = (selectedValue) => {
     if (options.indexOf(selectedValue) === -1) {
       options = [...options, selectedValue]
     }
@@ -24,15 +23,11 @@
     A lightweight, zero-dependency component that supports theming and incorporating new entries
   </small>
 
-  <Autocomplete
-    {options}
-    bind:selectedValue
-    onSubmit={handleSubmit}
-  />
+  <Autocomplete {options} onSubmit={handleSubmit} />
 
   <div>
     {#each selectedOptions as option, index}
-      <button style="background-color: {tagColors[index % 5]}" class="tag">
+      <button style="background-color: {tagColors[index % 5]}" tabindex="-1" class="tag">
         {option}
       </button>
     {/each}
@@ -42,14 +37,20 @@
 
   <Autocomplete
     {options}
-    onSubmit={() => alert("hey that's some sweet theming")}
+    onSubmit={() => alert("hey that's some sweet theming!")}
     themeColor={tagColors[4]}
   />
 
   <p>
     <img src="github-logo.png" alt="github">
   </p>
-  <a href="https://github.com/themarquisdesheric/simply-svelte-autocomplete">https://github.com/themarquisdesheric/simply-svelte-autocomplete</a>
+  <a
+    href="https://github.com/themarquisdesheric/simply-svelte-autocomplete"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    https://github.com/themarquisdesheric/simply-svelte-autocomplete
+  </a>
 </div>
 
 

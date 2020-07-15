@@ -17,8 +17,9 @@ export const boldSearchTerm = (option, searchTerm) => {
   const lowercaseOption = option.toLowerCase()
   const lowercaseSearchTerm = searchTerm.toLowerCase()
   let foundIndex = lowercaseOption.indexOf(lowercaseSearchTerm)
-  
   let html = ''
+  
+  if (!searchTerm) return option
 
   while (foundIndex !== -1) {
     const previousIndex = foundIndex
@@ -42,5 +43,5 @@ export const boldSearchTerm = (option, searchTerm) => {
     }
   }
 
-  return html || option
+  return html
 }

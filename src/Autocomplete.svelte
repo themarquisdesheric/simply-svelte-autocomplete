@@ -6,27 +6,30 @@
 	export let onSubmit = () => {}
 	export let themeColor = '#333'
 	export let highlightTextColor = '#fff'
-
 	export let selectedValue = ''
-	export let showResults = true
+	export let showAutocompleteResults = false
+	
 	let highlightIndex = 0
 
-	const handleInput = () => {
+	const showResults = () => {
 		highlightIndex = 0
-		showResults = true
+		showAutocompleteResults = true
 	}
+
+	const hideResults = () =>
+		showAutocompleteResults = false
+
+	const handleInput = () =>
+		showResults()
 
 	const handleKeyDown = ({ key }) => {
 		switch(key) {
 			case 'Escape':
-				showResults = false
+				hideResults()
 				break
 
 			case 'ArrowUp':
-				if (
-					showResultsList &&
-					highlightIndex === 0
-				) {
+				if (showAutocompleteResults && highlightIndex === 0) {
 					highlightIndex = matches.length - 1
 				} else {
 					highlightIndex -= 1
@@ -34,17 +37,19 @@
 				break
 
 			case 'ArrowDown':
-				if (
-					showResultsList &&
-					highlightIndex === matches.length - 1
-				) {
+				if (!selectedValue && !showAutocompleteResults) {
+					showResults()
+					break
+				}
+
+				if (showAutocompleteResults && highlightIndex === matches.length - 1) {
 					highlightIndex = 0
 				} else {
 					highlightIndex += 1
 				}
 				break
 			case 'Tab':
-				showResults = false		
+				hideResults()		
 				break
 
 			case 'Enter':
@@ -60,18 +65,17 @@
 	}
 
 	const handleSubmit = (value) => {
-		selectedValue = value
-		showResults = false
-		
+		if (!value) return
+
+		hideResults()
 		onSubmit(value)
 		selectedValue = ''
 	}
 
 	const highlight = (index) =>
-		showResultsList && index === highlightIndex
+		index === highlightIndex
 
 	$: matches = findMatches(options, selectedValue)
-	$: showResultsList = showResults && selectedValue && matches.length
 </script>
 
 
@@ -84,22 +88,23 @@
 		bind:value={selectedValue}
 		on:keydown={handleKeyDown}
 		on:input={handleInput}
+		on:click={showResults}
 	/>
 	<ChevronIcon />
 
-	{#if showResultsList}
-		<div class="click-catcher" on:click={() => showResults = false} />
+	<div class:showAutocompleteResults class="svelte-autocomplete-results-container">
+		<div class="click-catcher" on:click={hideResults} />
 		<ul class="results-list">
 			{#each matches as match, index (match)}
 				<li
 					on:click={() => handleSubmit(match)}
-					class:highlight={showResultsList && index === highlightIndex}
+					class:highlight={index === highlightIndex}
 				>
 					{@html boldSearchTerm(match, selectedValue)}
 				</li>
 			{/each}
 		</ul>
-	{/if}
+	</div>
 </div>
 
 
@@ -121,6 +126,10 @@
 
 	input,
 	.results-list { border: 1px solid #dbdbdb; }
+
+	.svelte-autocomplete-results-container { display: none; }
+
+	.svelte-autocomplete-results-container.showAutocompleteResults { display: block; }
 
 	.results-list {
     width: calc(100% - 2px);
@@ -145,7 +154,10 @@
 		height: 100%;
 	}
 
-	.results-list li { padding: .5rem; }
+	.results-list li {
+		padding: .5rem;
+		user-select: none;
+	}
 
 	:global(.results-list li span) {
 		font-weight: bold;
