@@ -93,13 +93,25 @@
 	/>
 	<ChevronIcon />
 
-	<div class:showAutocompleteResults class="svelte-autocomplete-results-container">
+
+	<div
+		class:showAutocompleteResults
+		class="svelte-autocomplete-results-container"
+		aria-hidden={showAutocompleteResults}
+		autocapitalize="none"
+		autocomplete="off"
+		aria-autocomplete="list"
+		role="combobox"
+		aria-expanded={showAutocompleteResults}
+	>
 		<div class="click-catcher" on:click={hideResults} />
 		<ul class="results-list">
 			{#each matches as match, index (match)}
 				<li
 					on:click={() => handleSubmit(match)}
 					class:highlight={index === highlightIndex}
+					aria-selected={index === highlightIndex}
+					role="option"
 				>
 					{@html boldSearchTerm(match, selectedValue)}
 				</li>
