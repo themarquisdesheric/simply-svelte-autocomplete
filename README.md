@@ -10,7 +10,7 @@ Check out the live demo at [simply-svelte-autocomplete.surge.sh](https://simply-
 
 ## Installation
 
-TODO
+`npm install simply-svelte-autocomplete`
 
 ## Usage
 
