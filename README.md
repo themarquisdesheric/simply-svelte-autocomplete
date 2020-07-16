@@ -1,10 +1,12 @@
 # Simply Svelte Autocomplete
 
-A lightweight, zero-dependency component that supports theming and incorporating new entries. Built with [SvelteJS](http://svelte.dev/) and a11y (accessibility) in mind ❤️
+A lightweight, zero-dependency component that supports theming and incorporating new entries. Built with [SvelteJS](http://svelte.dev/) and a11y in mind ❤️
 
 ## Demo 
 
-TODO
+Check out the live demo at [simply-svelte-autocomplete.surge.sh](https://simply-svelte-autocomplete.surge.sh/)
+
+[Demo code](https://github.com/themarquisdesheric/simply-svelte-autocomplete/blob/master/src/Demo.svelte)
 
 ## Installation
 
@@ -31,6 +33,10 @@ const handleSubmit = () => { ... }
 | onSubmit | Function | () => {} | Called upon clicking an autocomplete result or hitting the `Enter` key
 | themeColor | String | '#333' | Color of chevron icon and highlight background
 | highlightTextColor | String | '#FFF' | Highlight text color
+
+## a11y (accessibility)
+
+Though the component includes ARIA information, tabbed result navigation needs to be implemented for the component to be truly accessible. 
 
 ## Running Locally
 

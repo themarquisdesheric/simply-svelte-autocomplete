@@ -43,5 +43,5 @@ export const boldSearchTerm = (option, searchTerm) => {
     }
   }
 
-  return html
+  return html || option
 }

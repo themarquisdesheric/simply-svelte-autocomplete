@@ -105,7 +105,7 @@
 		aria-expanded={showAutocompleteResults}
 	>
 		<div class="click-catcher" on:click={hideResults} />
-		<ul class="results-list">
+		<ul class="results-list" class:border-none={!matches.length}>
 			{#each matches as match, index (match)}
 				<li
 					on:click={() => handleSubmit(match)}
@@ -159,6 +159,8 @@
 		z-index: 10;
 		text-align: left;
 	}
+
+	.results-list.border-none { border: none; }
 
 	.click-catcher {
 		position: fixed;
