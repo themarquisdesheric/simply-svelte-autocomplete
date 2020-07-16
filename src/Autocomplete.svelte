@@ -50,7 +50,7 @@
 				}
 				break
 			case 'Tab':
-				hideResults()		
+				hideResults()
 				break
 
 			case 'Enter':
@@ -110,6 +110,7 @@
 				<li
 					on:click={() => handleSubmit(match)}
 					class:highlight={index === highlightIndex}
+					aria-label={match}
 					aria-selected={index === highlightIndex}
 					role="option"
 				>

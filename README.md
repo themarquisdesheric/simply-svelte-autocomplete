@@ -28,7 +28,7 @@ const handleSubmit = () => { ... }
 |------|------|---------|-------------|
 | options | Array | [] | List of autocomplete results to display
 | className | String | '' | Container class
-| onSubmit | Function | () => {} | Called upon clicking/submitting an autocomplete result or hitting the `Enter` key
+| onSubmit | Function | () => {} | Called upon clicking an autocomplete result or hitting the `Enter` key
 | themeColor | String | '#333' | Color of chevron icon and highlight background
 | highlightTextColor | String | '#FFF' | Highlight text color
 
