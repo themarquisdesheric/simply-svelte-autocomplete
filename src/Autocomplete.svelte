@@ -7,7 +7,7 @@
 	let results = [...options, ...searchModifiers]
 	let searchModifier = ''
 	let inputRef
-		
+
 	export let className = ''
 	export let onSubmit = () => {}
 	export let themeColor = '#333'
@@ -148,7 +148,7 @@
 						role="option"
 					>
 						{#if index >= options.length || searchModifiers.includes(match)}
-							Search: 
+							<span class="search-label">Search</span>
 						{/if}
 						{@html boldSearchTerm(match, selectedValue)}
 					</li>
@@ -228,6 +228,8 @@
 	}
 
 	.results-list li {
+		display: flex;
+		align-items: center;
 		padding: .5rem;
 		user-select: none;
 	}
@@ -236,6 +238,17 @@
 		font-weight: bold;
 		color: #111;
 	}
+
+	.search-label {
+		border: 1px solid #333;
+    border-radius: .25rem;
+    padding: .25rem;
+    margin-right: .25rem;
+    font-size: .5rem;
+    font-weight: 500;
+	}
+
+	.highlight .search-label { border: 1px solid var(--highlightTextColor); }
 	
 	.highlight,
 	.results-list li:hover,
