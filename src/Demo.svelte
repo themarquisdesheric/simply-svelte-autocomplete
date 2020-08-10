@@ -5,7 +5,7 @@
   let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
   let selectedOptions = []
 
-  const handleSubmit = (selectedValue) => {
+  const handleSubmit = (selectedValue, category) => {
     if (options.indexOf(selectedValue) === -1) {
       options = [...options, selectedValue]
     }
@@ -23,7 +23,7 @@
     A lightweight, zero-dependency component that supports theming and incorporating new entries
   </small>
 
-  <Autocomplete {options} onSubmit={handleSubmit} />
+  <Autocomplete {options} onSubmit={handleSubmit} searchModifiers={['books']} />
 
   <div>
     {#each selectedOptions as option, index}

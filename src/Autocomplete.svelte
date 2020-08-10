@@ -3,6 +3,11 @@
 	import { boldSearchTerm, findMatches } from './utils'
 
 	export let options = []
+	export let searchModifiers = []
+	let results = [...options, ...searchModifiers]
+	let searchModifier = ''
+	let inputRef
+		
 	export let className = ''
 	export let onSubmit = () => {}
 	export let themeColor = '#333'
@@ -19,9 +24,17 @@
 
 	const hideResults = () =>
 		showAutocompleteResults = false
+	
+	const removeSearchModifier = () => {
+		searchModifier = ''
+		inputRef.focus()
+	}
 
-	const handleInput = () =>
-		showResults()
+	const handleInput = () => {
+		if (!searchModifier) {
+			showResults()
+		}
+	}
 
 	const handleKeyDown = ({ key }) => {
 		switch(key) {
@@ -59,6 +72,11 @@
 
 				handleSubmit(value)
 				break
+			case 'Backspace':
+				if (!selectedValue) {
+					removeSearchModifier()
+				}
+				break
 				
 			default:
 				return
@@ -68,15 +86,20 @@
 	const handleSubmit = (value) => {
 		if (!value) return
 
-		hideResults()
-		onSubmit(value)
+		if (searchModifiers.includes(value)) {
+			searchModifier = value
+		} else {
+			onSubmit(value, searchModifier)
+		}
+		
 		selectedValue = ''
+		hideResults()
 	}
 
 	const highlight = (index) =>
 		index === highlightIndex
 
-	$: matches = findMatches(options, selectedValue)
+	$: matches = findMatches(results, selectedValue)
 </script>
 
 
@@ -87,38 +110,52 @@
 >
 	<input
 		bind:value={selectedValue}
+		bind:this={inputRef}
 		on:keydown={handleKeyDown}
 		on:input={handleInput}
 		on:click={showResults}
+		class:modified-search={searchModifier}
 	/>
 	<ChevronIcon />
-
-
-	<div
-		class:showAutocompleteResults
-		class="svelte-autocomplete-results-container"
-		aria-hidden={showAutocompleteResults}
-		autocapitalize="none"
-		autocomplete="off"
-		aria-autocomplete="list"
-		role="combobox"
-		aria-expanded={showAutocompleteResults}
+	<span
+		class="search-modifier"
+		class:hidden={!searchModifier}
+		on:click={removeSearchModifier}
 	>
-		<div class="click-catcher" on:click={hideResults} />
-		<ul class="results-list" class:border-none={!matches.length}>
-			{#each matches as match, index (match)}
-				<li
-					on:click={() => handleSubmit(match)}
-					class:highlight={index === highlightIndex}
-					aria-label={match}
-					aria-selected={index === highlightIndex}
-					role="option"
-				>
-					{@html boldSearchTerm(match, selectedValue)}
-				</li>
-			{/each}
-		</ul>
-	</div>
+		{searchModifier}
+	</span>
+
+	{#if !searchModifier}
+		<div
+			class:showAutocompleteResults
+			class="svelte-autocomplete-results-container"
+			aria-hidden={showAutocompleteResults}
+			autocapitalize="none"
+			autocomplete="off"
+			aria-autocomplete="list"
+			role="combobox"
+			aria-expanded={showAutocompleteResults}
+		>
+			<div class="click-catcher" on:click={hideResults} />
+			<ul class="results-list" class:border-none={!matches.length}>
+				{#each matches as match, index (match)}
+					{#if index === options.length}<hr />{/if}
+					<li
+						on:click={() => handleSubmit(match)}
+						class:highlight={index === highlightIndex}
+						aria-selected={index === highlightIndex}
+						aria-label={match}
+						role="option"
+					>
+						{#if index >= options.length || searchModifiers.includes(match)}
+							Search: 
+						{/if}
+						{@html boldSearchTerm(match, selectedValue)}
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
 </div>
 
 
@@ -138,8 +175,26 @@
     box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
 	}
 
+	input.modified-search { padding-left: 3.5rem; }
+
 	input,
 	.results-list { border: 1px solid #dbdbdb; }
+
+	.search-modifier {
+		position: absolute;
+    left: .25rem;
+    top: .25rem;
+    height: calc(100% - .5rem);
+    display: flex;
+    align-items: center;
+    padding: .25rem;
+    border-radius: 3px;
+		background-color: var(--theme);
+		color: var(--highlightTextColor);
+    font-size: 14px;
+	}
+
+	.search-modifier.hidden { display: none; }
 
 	.svelte-autocomplete-results-container { display: none; }
 
@@ -161,6 +216,8 @@
 	}
 
 	.results-list.border-none { border: none; }
+
+	hr { margin: 0; }
 
 	.click-catcher {
 		position: fixed;
