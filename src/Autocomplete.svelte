@@ -88,8 +88,9 @@
 	const handleSubmit = (value) => {
 		if (!value) return
 
-		if (searchModifiers.includes(value)) {
+		if (MODIFIERS[value]) {
 			searchModifier = value
+			inputRef.focus()
 		} else {
 			onSubmit(value, searchModifier)
 			removeSearchModifier()
