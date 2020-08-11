@@ -2,17 +2,22 @@
 	import ChevronIcon from './ChevronIcon.svelte'
 	import { boldSearchTerm, findMatches } from './utils'
 
+	export let onSubmit = () => {}
 	export let options = []
 	export let searchModifiers = []
+	export let className = ''
+	export let themeColor = '#333'
+	export let highlightTextColor = '#fff'
+
+	const MODIFIERS = searchModifiers.reduce((acc, cur) => {
+		acc[cur] = true
+
+		return acc
+	}, {})
+
 	let results = [...options, ...searchModifiers]
 	let searchModifier = ''
 	let inputRef
-
-	export let className = ''
-	export let onSubmit = () => {}
-	export let themeColor = '#333'
-	export let highlightTextColor = '#fff'
-	
 	let showAutocompleteResults = false
 	let highlightIndex = 0
 	let selectedValue = ''
@@ -90,6 +95,7 @@
 			searchModifier = value
 		} else {
 			onSubmit(value, searchModifier)
+			removeSearchModifier()
 		}
 		
 		selectedValue = ''
@@ -117,15 +123,11 @@
 		class:modified-search={searchModifier}
 	/>
 	<ChevronIcon />
-	<span
-		class="search-modifier"
-		class:hidden={!searchModifier}
-		on:click={removeSearchModifier}
-	>
-		{searchModifier}
-	</span>
-
-	{#if !searchModifier}
+	{#if searchModifier}
+		<span class="search-modifier" on:click={removeSearchModifier}>
+			{searchModifier}
+		</span>
+	{:else}
 		<div
 			class:showAutocompleteResults
 			class="svelte-autocomplete-results-container"
@@ -139,15 +141,15 @@
 			<div class="click-catcher" on:click={hideResults} />
 			<ul class="results-list" class:border-none={!matches.length}>
 				{#each matches as match, index (match)}
-					{#if index === options.length}<hr />{/if}
 					<li
 						on:click={() => handleSubmit(match)}
+						class:border={MODIFIERS[match]}
 						class:highlight={index === highlightIndex}
 						aria-selected={index === highlightIndex}
 						aria-label={match}
 						role="option"
 					>
-						{#if index >= options.length || searchModifiers.includes(match)}
+						{#if index >= options.length || MODIFIERS[match]}
 							<span class="search-label">Search</span>
 						{/if}
 						{@html boldSearchTerm(match, selectedValue)}
@@ -194,8 +196,6 @@
     font-size: 14px;
 	}
 
-	.search-modifier.hidden { display: none; }
-
 	.svelte-autocomplete-results-container { display: none; }
 
 	.svelte-autocomplete-results-container.showAutocompleteResults { display: block; }
@@ -217,7 +217,7 @@
 
 	.results-list.border-none { border: none; }
 
-	hr { margin: 0; }
+	.border { border-top: 1px solid #dbdbdb; }
 
 	.click-catcher {
 		position: fixed;
@@ -241,9 +241,11 @@
 
 	.search-label {
 		border: 1px solid #333;
+		background-color: #333;
     border-radius: .25rem;
     padding: .25rem;
     margin-right: .25rem;
+		color: var(--highlightTextColor);
     font-size: .5rem;
     font-weight: 500;
 	}
