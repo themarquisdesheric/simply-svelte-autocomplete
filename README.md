@@ -29,10 +29,13 @@ const handleSubmit = () => { ... }
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | options | Array | [] | List of autocomplete results to display
+| searchModifiers | Array | [] | Used to restrict searches to a specific category
 | className | String | '' | Container class
 | onSubmit | Function | () => {} | Called upon clicking an autocomplete result or hitting the `Enter` key
 | themeColor | String | '#333' | Color of chevron icon and highlight background
 | highlightTextColor | String | '#FFF' | Highlight text color
+
+Note: `options` and `searchModifiers` only accept strings. This is *simply* svelte, with a side of simple.
 
 ## a11y (accessibility)
 
