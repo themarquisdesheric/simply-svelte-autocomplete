@@ -17,6 +17,7 @@
 
 	let results = [...options, ...searchModifiers]
 	let searchModifier = ''
+	let modifierLabelWidth
 	let inputRef
 	let showAutocompleteResults = false
 	let highlightIndex = 0
@@ -46,7 +47,6 @@
 			case 'Escape':
 				hideResults()
 				break
-
 			case 'ArrowUp':
 				if (showAutocompleteResults && highlightIndex === 0) {
 					highlightIndex = matches.length - 1
@@ -54,7 +54,6 @@
 					highlightIndex -= 1
 				}
 				break
-
 			case 'ArrowDown':
 				if (!selectedValue && !showAutocompleteResults) {
 					showResults()
@@ -70,7 +69,6 @@
 			case 'Tab':
 				hideResults()
 				break
-
 			case 'Enter':
 				const highlightedOption = matches[highlightIndex]
 				const value = highlightedOption || selectedValue
@@ -82,7 +80,6 @@
 					removeSearchModifier()
 				}
 				break
-				
 			default:
 				return
 		}
@@ -112,7 +109,8 @@
 <div
 	class="svelte-autocomplete {className}"
 	style="--theme: {themeColor};
-				 --highlightTextColor: {highlightTextColor};"
+				 --highlightTextColor: {highlightTextColor};
+				 --modifier-label-width: {modifierLabelWidth + 8}px;"
 >
 	<input
 		bind:value={selectedValue}
@@ -124,7 +122,11 @@
 	/>
 	<ChevronIcon />
 	{#if searchModifier}
-		<span class="search-modifier" on:click={removeSearchModifier}>
+		<span
+			class="search-modifier"
+			on:click={removeSearchModifier}
+			bind:clientWidth={modifierLabelWidth}
+		>
 			{searchModifier}
 		</span>
 	{:else}
@@ -143,7 +145,7 @@
 				{#each matches as match, index (match)}
 					<li
 						on:click={() => handleSubmit(match)}
-						class:border={MODIFIERS[match]}
+						class:modifier={MODIFIERS[match]}
 						class:highlight={index === highlightIndex}
 						aria-selected={index === highlightIndex}
 						aria-label={match}
@@ -177,12 +179,13 @@
     box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
 	}
 
-	input.modified-search { padding-left: 3.5rem; }
+	input.modified-search { padding: .25rem 2rem .25rem var(--modifier-label-width); }
 
 	input,
 	.results-list { border: 1px solid #dbdbdb; }
 
 	.search-modifier {
+		display: block;
 		position: absolute;
     left: .25rem;
     top: .25rem;
@@ -199,6 +202,14 @@
 	.svelte-autocomplete-results-container { display: none; }
 
 	.svelte-autocomplete-results-container.showAutocompleteResults { display: block; }
+
+	.click-catcher {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
 
 	.results-list {
     width: calc(100% - 2px);
@@ -217,19 +228,7 @@
 
 	.results-list.border-none { border: none; }
 
-	.border { border-top: 1px solid #dbdbdb; }
-
-	.click-catcher {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-
 	.results-list li {
-		display: flex;
-		align-items: center;
 		padding: .5rem;
 		user-select: none;
 	}
@@ -239,9 +238,15 @@
 		color: #111;
 	}
 
+	.modifier {
+		display: flex;
+		align-items: center;
+		border-top: 1px solid #dbdbdb;
+	}
+
 	.search-label {
-		border: 1px solid #333;
-		background-color: #333;
+		border: 1px solid var(--theme);
+		background-color: var(--theme);
     border-radius: .25rem;
     padding: .25rem;
     margin-right: .25rem;

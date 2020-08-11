@@ -2,6 +2,7 @@
   import Autocomplete from './Autocomplete.svelte'
 
   const tagColors = ['#000', '#3298dc', '#f14668', '#48c774', '#3273dc']
+  const searchModifiers = ['books', 'philosophy']
   let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
   let selectedOptions = []
 
@@ -23,7 +24,7 @@
     A lightweight, zero-dependency component that supports theming and incorporating new entries
   </small>
 
-  <Autocomplete {options} onSubmit={handleSubmit} searchModifiers={['books']} />
+  <Autocomplete {options} {searchModifiers} onSubmit={handleSubmit} />
 
   <div>
     {#each selectedOptions as option, index}
@@ -37,6 +38,7 @@
 
   <Autocomplete
     {options}
+    {searchModifiers}
     onSubmit={() => alert("hey that's some sweet theming!")}
     themeColor={tagColors[4]}
   />
