@@ -15,6 +15,8 @@
       selectedOptions = [...selectedOptions, selectedValue]
     }
   }
+  
+  let singleValueSelectedOption;
 </script>
 
 
@@ -42,6 +44,20 @@
     onSubmit={() => alert("hey that's some sweet theming!")}
     themeColor={tagColors[4]}
   />
+
+  <h2>It also support single value selection ✅</h2>
+
+  <Autocomplete
+    {options}
+    {searchModifiers}
+    keepValueOnSubmit
+    themeColor={tagColors[4]}
+    bind:selectedValue={singleValueSelectedOption}
+  />
+
+  {#if singleValueSelectedOption}
+    You have selected: {singleValueSelectedOption}!
+  {/if}
 
   <p>
     <img src="github-logo.png" alt="github">
