@@ -6,7 +6,7 @@
   let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
   let selectedOptions = []
 
-  const handleSubmit = (selectedValue, category) => {
+  const handleSubmit = (selectedValue) => {
     if (options.indexOf(selectedValue) === -1) {
       options = [...options, selectedValue]
     }

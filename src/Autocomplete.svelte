@@ -101,9 +101,6 @@
 		hideResults()
 	}
 
-	const highlight = (index) =>
-		index === highlightIndex
-
 	$: matches = findMatches(results, selectedValue)
 </script>
 
