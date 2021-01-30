@@ -8,6 +8,8 @@
 	export let className = ''
 	export let themeColor = '#333'
 	export let highlightTextColor = '#fff'
+	export let keepValueOnSubmit = false
+	export let selectedValue = ''
 
 	const MODIFIERS = searchModifiers.reduce((acc, cur) => {
 		acc[cur] = true
@@ -21,7 +23,6 @@
 	let inputRef
 	let showAutocompleteResults = false
 	let highlightIndex = 0
-	let selectedValue = ''
 
 	const showResults = () => {
 		highlightIndex = 0
@@ -96,7 +97,7 @@
 			removeSearchModifier()
 		}
 		
-		selectedValue = ''
+		selectedValue = keepValueOnSubmit ? value : ''
 		hideResults()
 	}
 
