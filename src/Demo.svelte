@@ -45,7 +45,7 @@
     themeColor={tagColors[4]}
   />
 
-  <h2>It also support single value selection ✅</h2>
+  <h2>And also supports binding/persisting single values ✅</h2>
 
   <Autocomplete
     {options}
@@ -56,12 +56,12 @@
   />
 
   {#if singleValueSelectedOption}
-    You have selected: {singleValueSelectedOption}!
+    <p>You have selected: {singleValueSelectedOption}!</p>
   {/if}
 
-  <p>
+  <div>
     <img src="github-logo.png" alt="github">
-  </p>
+  </div>
   <a
     href="https://github.com/themarquisdesheric/simply-svelte-autocomplete"
     target="_blank"
@@ -112,7 +112,7 @@
     font-size: 1.125rem;
   }
 
-  p { margin: 2rem 0 .5rem; }
+  div { margin: 2rem 0 .5rem; }
 
   img { width: 4rem; }
 </style>

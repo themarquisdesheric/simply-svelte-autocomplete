@@ -34,7 +34,7 @@ const handleSubmit = () => { ... }
 | onSubmit | Function | () => {} | Called upon clicking an autocomplete result or hitting the `Enter` key
 | themeColor | String | '#333' | Color of chevron icon and highlight background
 | highlightTextColor | String | '#FFF' | Highlight text color
-| keepValueOnSubmit | boolean | false | Whether to keep the value instead of clearing it when clicking on a result or hitting the `Enter` key
+| keepValueOnSubmit | Boolean | false | Whether to keep the value instead of clearing it when clicking on a result or hitting the `Enter` key
 
 Note: `options` and `searchModifiers` only accept strings. This is *simply* svelte, with a side of simple.
 
@@ -42,7 +42,7 @@ Note: `options` and `searchModifiers` only accept strings. This is *simply* svel
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| selectedValue | string | '' | The current raw value written in the input
+| selectedValue | String | '' | The current raw value written in the input
 
 ## a11y (accessibility)
 
