@@ -14,7 +14,7 @@ Check out the live demo at [simply-svelte-autocomplete.surge.sh](https://simply-
 
 ## Usage
 
-```
+```js
 import AutoComplete from 'simply-svelte-autocomplete'
 
 let options = ['Jorge Luis Borges', 'Voltaire', 'Oscar Wilde', 'Julio Cortazar', 'T.S. Eliot']
